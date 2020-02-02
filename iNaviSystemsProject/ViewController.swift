@@ -15,7 +15,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSAutocomple
     
     @IBOutlet weak var mainMapView: GMSMapView!
     @IBAction func searchingRoute(_ sender: Any) {
-        showAlertOkNo(title: "길을 찾으시겠습니까?", message: "한국어로는 자동차 안내는 불가합니다.")
+        showAlertOkNo(title: "두 위치 사이의 거리를 확인하시겠습니까?", message: "")
     }
     @IBOutlet weak var searchingButton: UIButton!
     
@@ -83,7 +83,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSAutocomple
         mainMapView.animate(to: camera)
         
         searchingButton.isHidden = false
-
+        
         result_latitude = place.coordinate.latitude
         result_longitude = place.coordinate.longitude
         
@@ -100,7 +100,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSAutocomple
         print(place.name)
         
     }
-
+    
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: Error){
@@ -168,7 +168,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSAutocomple
         case .authorizedWhenInUse:
             print("Location status is OK.")
         @unknown default:
-           print("")
+            print("")
         }
     }
     
@@ -199,16 +199,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSAutocomple
         polyLine.strokeWidth = 10.0
         polyLine.geodesic = true
         polyLine.strokeColor = .red
-
+        
         let rectangle = GMSPolyline(path: path)
         rectangle.map = mainMapView
         let circleCenter = CLLocationCoordinate2D(latitude: result_latitude, longitude: result_longitude)
-        let circ = GMSCircle(position: circleCenter, radius: 1000)
+        let circ = GMSCircle(position: circleCenter, radius: 500)
+        circ.fillColor = UIColor(red: 0.75, green: 0.25, blue: 0, alpha: 0.55)
+        circ.strokeWidth = 5
         circ.map = mainMapView
         
-        let camera = GMSCameraPosition.camera(withLatitude: result_latitude, longitude: result_longitude, zoom: 12)
-        mainMapView.camera = camera
-        mainMapView.animate(to: camera)
+        mainMapView.animate(toZoom: 14)
     }
     
 }
